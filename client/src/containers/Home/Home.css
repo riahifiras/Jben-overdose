@@ -1,0 +1,40 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+  
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 1s ease;
+    transform: translateX(0%);
+  }
+  
+  .background.slide-enter {
+    transform: translateX(100%);
+  }
+  
+  .background.slide-enter-active {
+    transform: translateX(0%);
+  }
+  
+  .background.slide-exit {
+    transform: translateX(0%);
+  }
+  
+  .background.slide-exit-active {
+    transform: translateX(-100%);
+  }
+  
