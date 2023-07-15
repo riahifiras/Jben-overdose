@@ -2,7 +2,7 @@ import { useState } from 'react'
 import SortDropDown from '../SortDropDown/SortDropDown'
 import { FaListUl, FaThLarge, FaFilter, FaArrowDown } from 'react-icons/fa'
 
-const Options = ({mode, setMode}) => {
+const Options = ({mode, setMode, sort, setSort}) => {
 
   const switchToGrid = () => {
     if(mode === "list") setMode("grid");
@@ -20,7 +20,7 @@ const Options = ({mode, setMode}) => {
             <span className={mode === "grid" ?'cursor-pointer border-2 bg-slate-200 rounded-sm w-12 h-12 flex justify-center items-center' : 'cursor-pointer w-12 h-12 flex justify-center items-center'} onClick={switchToGrid}><FaThLarge/></span>
             <span className={mode === "list" ?'cursor-pointer border-2 bg-slate-200 rounded-sm w-12 h-12 flex justify-center items-center' : 'cursor-pointer w-12 h-12 flex justify-center items-center'} onClick={switchToList}><FaListUl/></span>
         </div>
-        <span className='flex flex-row justify-center items-center gap-4 text-xl'>Sort by: <SortDropDown/></span>
+        <span className='flex flex-row justify-center items-center gap-4 text-xl'>Sort by: <SortDropDown sort={sort} setSort={setSort}/></span>
     </div>
   )
 }
