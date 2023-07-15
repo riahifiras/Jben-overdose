@@ -80,7 +80,7 @@ const Menu = () => {
     else if(mode === "list"){
       return (
         <div className='mt-8 border-2 mx-auto w-8/12'>
-          <Options mode={mode} setMode={setMode}/>
+          <Options mode={mode} setMode={setMode} sort={sortState} setSort={setSortState} />
           <div className=''>
             {data.map(({_id, title, price, picture}) => {
               return (
