@@ -13,11 +13,15 @@ const Menu = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [cart, setCart] = useState(localStorage.getItem("cart") ? localStorage.getItem("cart"): [])
+  const [wishList, setWishList] = useState(localStorage.getItem("wishList") ? localStorage.getItem("wishList"): [])
   const [mode, setMode] = useState(localStorage.getItem("mode") ? localStorage.getItem("mode"): "grid");
   const [sortState, setSortState] = useState("Newest")
 
 
   localStorage.setItem("mode", mode);
+  localStorage.setItem("cart", cart);
+  localStorage.setItem("wishList", wishList);
 
   const { pathname } = useLocation();
   const substr = pathname.substring(pathname.lastIndexOf('/') + 1);
