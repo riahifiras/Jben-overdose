@@ -41,7 +41,7 @@ const CakeDesc = () => {
                     <p className='text-lg'>{data.description}</p>
                     <p>stars here</p>
                     <p className='text-xl font-semibold'>${data.price}</p>
-                    <button className='flex justify-center items-center w-32  h-10 bg-color5 text-white px-6'>Add to cart</button>
+                    <button className='flex justify-center items-center w-32  h-10 bg-color5 hover:bg-color6 duration-150 text-white px-6'>Add to cart</button>
                 </div>
                 </section>
             </div>

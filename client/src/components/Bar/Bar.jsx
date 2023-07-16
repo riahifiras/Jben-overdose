@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { FaShoppingCart, FaHeart } from "react-icons/fa"
+import Cart from "../../containers/Cart/Cart";
 
-const Bar = () => {
+const Bar = ({data, setData}) => {
 
   const [ info, setInfo] = useState("");
 
@@ -21,7 +22,7 @@ const Bar = () => {
         <div className="flex flex-row gap-6 items-center text-xl">
             <button>profile</button>
             <button><FaHeart /></button>
-            <button><FaShoppingCart /></button>
+            <button><Cart data={data} setData={setData} /></button>
         </div>
     </div>
   )

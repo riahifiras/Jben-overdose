@@ -9,6 +9,11 @@ import Shop from './pages/Shop/Shop';
 import './App.css';
 
 function App() {
+
+  localStorage.getItem("cart") ? {} : localStorage.setItem("cart", JSON.stringify({id: "nothing", quantity: 1}));
+  localStorage.getItem("wishList") ? {} : localStorage.setItem("wishList", JSON.stringify({id: "nothing", quantity: 1}));
+
+
   return (
     <>
       <BrowserRouter>
