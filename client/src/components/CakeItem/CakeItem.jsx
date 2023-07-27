@@ -11,6 +11,10 @@ const CakeItem = ({ id, picture, title, price }) => {
     if (!arr.some(item => item.id === id)) {
       arr.push({ id: id, quantity: 1 });
     }
+    else{
+      const existingItemIndex = arr.findIndex(item => item.id === id);
+      arr[existingItemIndex].quantity++;
+    }
     console.log(localStorage.getItem("cart"));
     localStorage.setItem("cart", JSON.stringify(arr));
   }

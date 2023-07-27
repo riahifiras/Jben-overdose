@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import Login from './pages/Login/Login';
@@ -11,7 +11,7 @@ import './App.css';
 function App() {
 
   localStorage.getItem("cart") ? {} : localStorage.setItem("cart", JSON.stringify({id: "nothing", quantity: 1}));
-  localStorage.getItem("wishList") ? {} : localStorage.setItem("wishList", JSON.stringify({id: "nothing", quantity: 1}));
+  localStorage.getItem("wishList") ? {} : localStorage.setItem("wishList", JSON.stringify({id: "nothing"}));
 
 
   return (

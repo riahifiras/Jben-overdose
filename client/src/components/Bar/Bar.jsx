@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { FaShoppingCart, FaHeart } from "react-icons/fa"
 import Cart from "../../containers/Cart/Cart";
+import WishList from "../../containers/WishList/WishList";
 
 const Bar = ({data, setData}) => {
 
@@ -21,7 +22,7 @@ const Bar = ({data, setData}) => {
         <input type="text" name="search" id="search" value={info} onKeyDown={handleKeyDown} onChange={handleChange} className="h-16 border-2 outline-none p-2 rounded-sm text-xl" style={{width: '600px'}} placeholder="Search..."/>
         <div className="flex flex-row gap-6 items-center text-xl">
             <button>profile</button>
-            <button><FaHeart /></button>
+            <button><WishList data={data} setData={setData} /></button>
             <button><Cart data={data} setData={setData} /></button>
         </div>
     </div>

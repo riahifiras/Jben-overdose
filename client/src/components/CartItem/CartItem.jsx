@@ -1,14 +1,24 @@
 import { useState } from "react"
 import { FaTrashAlt } from "react-icons/fa"
 
-const CartItem = ({ id, picture, title, price, CartItems, setCartItems }) => {
-
-    const [quantity, setQuantity] = useState(1)
+const CartItem = ({ id, picture, title, price, quan }) => {
+    const [quantity, setQuantity] = useState(quan)
 
     const findElementById = (array, id) => array.find((element) => element.id === id);
 
+    let arr = (localStorage.getItem("cart"))? JSON.parse(localStorage.getItem("cart")): [];
+    
+
     const handleChange = (e) => {
         setQuantity(e.target.value);
+        const existingItemIndex = arr.findIndex(item => item.id === id);
+        arr[existingItemIndex].quantity = quantity;
+        localStorage.setItem("cart", JSON.stringify(arr));
+    }
+
+    const deleteItem = (id) => {
+        const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
+        localStorage.setItem("cart", JSON.stringify(cartData.filter(item => item.id !== id)))
     }
 
     return (
@@ -22,7 +32,7 @@ const CartItem = ({ id, picture, title, price, CartItems, setCartItems }) => {
             <label htmlFor="quantity" className="text-sm">Quantity: </label>
             <input onChange={handleChange} value={quantity} type="number" name="quantity" className="text-sm w-10 h-8 rounded-md border-2 outline-none px-1" />
             </div>
-            <div className="w-7 h-7 flex justify-center items-center rounded-md shadow-md text-sm bg-red-600 hover:bg-red-500 duration-150 text-white cursor-pointer"><FaTrashAlt/></div>
+            <div onClick={() => deleteItem(id)} className="w-7 h-7 flex justify-center items-center rounded-md shadow-md text-sm bg-red-600 hover:bg-red-500 duration-150 text-white cursor-pointer"><FaTrashAlt/></div>
         </div>
         
         </>

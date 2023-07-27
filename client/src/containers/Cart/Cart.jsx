@@ -1,9 +1,27 @@
 
 import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa"
+import axios from "axios";
 import CartItem from "../../components/CartItem/CartItem";
 
-const Cart = ({ data, setData }) => {
+const Cart = () => {
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      let res = "";
+      res = await axios.get("http://localhost:3000/getCakes");
+      setIsLoading(false);
+      setData(res.data.Cakes)
+    } catch (error) {
+      setIsLoading(false);
+      setError(true);
+    }
+  }
+
 
   const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
   const ids = cartData?.map(item => item.id) || [];
@@ -13,16 +31,15 @@ const Cart = ({ data, setData }) => {
   const [cartItems, setCartItems] = useState(tempArr);
 
   const find = () => {
+    fetchData();
     const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
     const ids = cartData?.map(item => item.id) || [];
     const tempArr = data.filter(item => ids.includes(item._id));
-    console.log(cartItems);
-    if (tempArr.length == cartItems.length){
-    }
-    else{
-      setCartItems(tempArr);
-      console.log("yes");
-    }
+    const updatedCartItems = tempArr.map(item => {
+      const matchingCartItem = cartData.find(cartItem => cartItem.id === item._id);
+      return matchingCartItem ? { ...item, quantity: matchingCartItem.quantity } : item;
+    });
+    setCartItems(updatedCartItems);
     
   };
   
@@ -30,8 +47,7 @@ const Cart = ({ data, setData }) => {
 
   useEffect(() => {
     find();
-    console.log("haa");
-  }, [data, cartItems])
+  }, [displayOn])
 
   const handleClick = () => {
     setDisplayOn(!displayOn);
@@ -40,6 +56,14 @@ const Cart = ({ data, setData }) => {
   const handleMenuClick = (event) => {
     event.stopPropagation();
   };
+
+  const totalPrice = (cartItems) => {
+    let sum = 0;
+    for(let item of cartItems){
+      sum += item.price*item.quantity;
+    }
+    return sum;
+  }
 
   return (
     <div
@@ -55,13 +79,13 @@ const Cart = ({ data, setData }) => {
         <div className="">
           <div className="flex flex-row justify-between px-2">
             <h1>Items: {cartItems.length}</h1>
-            <h1>Total: $199.92</h1>
+            <h1>Total: ${totalPrice(cartItems)}</h1>
           </div>
           <div className="float-right flex justify-center items-center bg-color5 duration-150 hover:bg-color6 text-white p-2 my-4 rounded-md shadow-md cursor-pointer">Proceed to checkout</div>
         </div>
         <ul>
-          {cartItems.map(({ _id, title, price, picture }) => {
-            return <CartItem key={_id} id={_id} title={title} picture={picture} price={price} cartItems={cartItems} setCartItems={setCartItems} />;
+          {cartItems.map(({ _id, title, price, picture, quantity }) => {
+            return <CartItem key={_id} id={_id} title={title} picture={picture} price={price} quan={quantity} />;
           })}
         </ul>
       </div>
