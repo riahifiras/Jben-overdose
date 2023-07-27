@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
 import './Login.css'
 
 const Login = () => {
-
+  const { setAuth } = useAuth();
   const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname ||"/";
 
   const [info, setInfo] = useState({
     identifier: "",
@@ -38,6 +43,7 @@ const Login = () => {
           if (isPasswordMatch) {
             // Account found
             console.log('Matching user:', user);
+            navigate("from", {replace: true});
             return;
           } else {
             // Incorrect password

@@ -1,5 +1,6 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import RequireAuth from './RequireAuth';
 import HomePage from './pages/HomePage/HomePage';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -10,23 +11,23 @@ import './App.css';
 
 function App() {
 
-  localStorage.getItem("cart") ? {} : localStorage.setItem("cart", JSON.stringify({id: "nothing", quantity: 1}));
-  localStorage.getItem("wishList") ? {} : localStorage.setItem("wishList", JSON.stringify({id: "nothing"}));
+  localStorage.getItem("cart") ? {} : localStorage.setItem("cart", JSON.stringify({ id: "nothing", quantity: 1 }));
+  localStorage.getItem("wishList") ? {} : localStorage.setItem("wishList", JSON.stringify({ id: "nothing" }));
 
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/product/:id" element={<Product />} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<RequireAuth />}>
           <Route path="/settings" element={<Settings />} />
-          <Route path="/shop/:substr" element={<Shop />} />
-          <Route path="/shop/" element={<Shop />} />
-        </Routes>
-      </BrowserRouter>
+        </Route>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/shop/:substr" element={<Shop />} />
+        <Route path="/shop/" element={<Shop />} />
+      </Routes>
     </>
   );
 }
