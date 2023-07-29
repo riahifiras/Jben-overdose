@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
     profilePic: String,
     shoppingCart: [String],
     wishList: [String],
-    previousTransactions: [String]
+    previousTransactions: [String],
+    accessToken: [String],
+    refreshToken: [String]
 })
 
 const User = mongoose.model('User', userSchema);

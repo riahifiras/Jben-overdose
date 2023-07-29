@@ -29,32 +29,20 @@ const Login = () => {
 
   const get = async () => {
     try {
-      const hashedPassword = await bcrypt.hash(info.password, 10);
-      const result = await axios.get('http://localhost:3000/login/');
-      const users = result.data.Users;
+      const result = await axios.post('http://localhost:3000/login/', {
+        identifier: info.identifier,
+        password: info.password,
+      });
+      const user = result.data;
   
-      for (const user of users) {
-        const isEmailMatch = user.email === info.identifier;
-        const isUsernameMatch = user.username === info.identifier;
-  
-        if (isEmailMatch || isUsernameMatch) {
-          const isPasswordMatch = await bcrypt.compare(info.password, user.password);
-  
-          if (isPasswordMatch) {
-            // Account found
-            console.log('Matching user:', user);
-            navigate("from", {replace: true});
-            return;
-          } else {
-            // Incorrect password
-            console.log('Incorrect password');
-            return;
-          }
-        }
+      if (user) {
+        // Account found
+        console.log('Matching user:', user);
+        navigate(from, {replace: true});
+      } else {
+        // Account not found or incorrect password
+        console.log('Account not found or incorrect password');
       }
-  
-      // Account not found
-      console.log('Account not found');
     } catch (error) {
       console.log(error);
     }
