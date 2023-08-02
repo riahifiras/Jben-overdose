@@ -97,14 +97,14 @@ app.post('/login', async (req, res) => {
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
-      const accessToken = jwt.sign({ user: identifier }, jwtSecretKey, { expiresIn: '30s' });
+      const accessToken = jwt.sign({ user: identifier }, jwtSecretKey, { expiresIn: '1h' });
       const refreshToken = jwt.sign({ user: identifier }, refreshSecretKey, { expiresIn: '1d' });
 
       let users = await findAllUsers();
       //const otherUsers = users.filter((user) => user.username === identifier || user.email === identifier);
       const currentUser = { ...user, refreshToken };
       await updateRefreshTokenInDatabase(currentUser._id, refreshToken);
-
+      //console.log(currentUser);
       // Save the updated users array to the database
       const updatedUsers = await updateUserArray(users);
 
@@ -113,6 +113,7 @@ app.post('/login', async (req, res) => {
       }
 
       res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure:true, maxAge: 24 * 60 * 60 * 100 });
+
       return res.json({ accessToken });
     } else {
       return res.status(401).json({ error: 'Incorrect password' });
@@ -145,6 +146,7 @@ async function updateRefreshTokenInDatabase(userId, refreshToken) {
 app.get('/refresh', async (req, res) => {
   try {
     const cookies = req.cookies;
+    //console.log("cookies: ", cookies.jwt);
     if (!cookies?.jwt) {
       return res.status(401).json({ error: 'Refresh token not found' });
     }

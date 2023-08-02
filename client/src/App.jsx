@@ -7,6 +7,8 @@ import Signup from './pages/Signup/Signup';
 import Product from './pages/Product/Product';
 import Settings from './pages/Settings/Settings';
 import Shop from './pages/Shop/Shop';
+import Profile from './pages/profile/profile';
+import PersistLogin from './components/Persistlogin';
 import './App.css';
 
 function App() {
@@ -20,8 +22,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
-        <Route element={<RequireAuth />}>
-          <Route path="/settings" element={<Settings />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/product/:id" element={<Product />} />

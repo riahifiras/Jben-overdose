@@ -9,7 +9,6 @@ const Header = ({data, setData}) => {
 
   useEffect(() => {
     setPath(window.location.pathname);
-    console.log(path)
   }, [])
 
   return (

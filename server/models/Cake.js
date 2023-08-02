@@ -5,7 +5,9 @@ const cakeSchema = new mongoose.Schema({
     description: { type:String, required: true},
     price: { type:Number, required: true},
     ingredients: { type:[String], required: true},
-    picture: { type:String, required: true}
+    picture: { type:String, required: true},
+    ingredients: { type:[String], required: true},
+    rating: { type:Number, required: true}
 })
 
 const Cake = mongoose.model('Cake', cakeSchema);
