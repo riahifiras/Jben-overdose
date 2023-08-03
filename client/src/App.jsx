@@ -9,6 +9,7 @@ import Settings from './pages/Settings/Settings';
 import Shop from './pages/Shop/Shop';
 import Profile from './pages/profile/profile';
 import PersistLogin from './components/Persistlogin';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
 import './App.css';
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
         </Route>
         <Route path="/signup" element={<Signup />} />

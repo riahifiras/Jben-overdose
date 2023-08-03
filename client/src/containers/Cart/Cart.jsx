@@ -1,11 +1,16 @@
 
 import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { FaShoppingCart } from "react-icons/fa"
 import axios from "axios";
 import CartItem from "../../components/CartItem/CartItem";
 
 const Cart = () => {
 
+  const { auth } = useAuth();
+  const navigate  = useNavigate();
+  const location = useLocation();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -81,7 +86,7 @@ const Cart = () => {
             <h1>Items: {cartItems.length}</h1>
             <h1>Total: ${totalPrice(cartItems)}</h1>
           </div>
-          <div className="float-right flex justify-center items-center bg-color5 duration-150 hover:bg-color6 text-white p-2 my-4 rounded-md shadow-md cursor-pointer">Proceed to checkout</div>
+          <Link to="/checkout" className="float-right flex justify-center items-center bg-color5 duration-150 hover:bg-color6 text-white p-2 my-4 rounded-md shadow-md cursor-pointer">Proceed to checkout</Link>
         </div>
         <ul>
           {cartItems.map(({ _id, title, price, picture, quantity }) => {

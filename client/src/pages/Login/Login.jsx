@@ -44,7 +44,13 @@ const Login = () => {
         // Account found
         console.log('Matching user:', user);
         const accessToken = result.data.accessToken;
-        setAuth({ identifier: info.identifier, password: info.password, accessToken })
+        setAuth({ identifier: info.identifier, accessToken })
+        const updateCart = await axios.put(`/updatecart/${user.currentUser}`, JSON.parse(localStorage.getItem("cart")), {headers: {
+          'Content-Type': 'application/json'
+        }});
+        const updateWishList = await axios.put(`/updatewishlist/${user.currentUser}`, JSON.parse(localStorage.getItem("wishList")), {headers: {
+          'Content-Type': 'application/json'
+        }});
         navigate(from, { replace: true });
       } else {
         // Account not found or incorrect password

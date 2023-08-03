@@ -9,9 +9,15 @@ const userSchema = new mongoose.Schema({
     phoneNumber: Number,
     address: String,
     profilePic: String,
-    shoppingCart: [String],
-    wishList: [String],
+    shoppingCart: [{
+        id: { type: String, required: true },
+        quantity: { type: Number, required: true }
+    }],
+    wishList: [{
+        id: { type: String, required: true }
+    }],
     previousTransactions: [String],
+    reviews: [Object],
     accessToken: [String],
     refreshToken: [String]
 })
