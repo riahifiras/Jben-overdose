@@ -86,7 +86,7 @@ const Cart = () => {
             <h1>Items: {cartItems.length}</h1>
             <h1>Total: ${totalPrice(cartItems)}</h1>
           </div>
-          <Link to="/checkout" className="float-right flex justify-center items-center bg-color5 duration-150 hover:bg-color6 text-white p-2 my-4 rounded-md shadow-md cursor-pointer">Proceed to checkout</Link>
+          <Link to='/checkout' state={totalPrice(cartItems)} className="float-right flex justify-center items-center bg-color5 duration-150 hover:bg-color6 text-white p-2 my-4 rounded-md shadow-md cursor-pointer">Proceed to checkout</Link>
         </div>
         <ul>
           {cartItems.map(({ _id, title, price, picture, quantity }) => {

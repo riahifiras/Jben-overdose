@@ -5,18 +5,32 @@ import ProfileBody from '../../containers/ProfileBody/ProfileBody';
 import Header from "../../containers/Header/Header"
 import { placeHolderProfileImage } from '../../Images';
 import useAxiosPrivate from "../../hooks/useAxioxPrivate"
+import axios from 'axios';
 
 const Profile = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const [data, setData] = useState({});
+    const [userData, setUserData] = useState({});
+    const [cakes, setCakes] = useState([]);
     const axiosPrivate = useAxiosPrivate();
-    const getData = async () => {
+
+    const fetchData = async () => {
+        try {
+          let res = "";
+          res = await axios.get("http://localhost:3000/getCakes");
+          
+          setCakes(res.data.Cakes)
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+      }
+
+    const getUserData = async () => {
         try {
             const result = await axiosPrivate.get("/getAccountInfo");
-
-            setData(result.data.accountInfo);
+            console.log(result.data.accountInfo);
+            setUserData(result.data.accountInfo);
         } catch (error) {
             console.log("Error: ", error);
             navigate('/login', { state: { from: location }, replace: true });
@@ -24,7 +38,8 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        getData()
+        fetchData();
+        getUserData();
     }, [])
 
 
@@ -32,8 +47,8 @@ const Profile = () => {
         <div>
             <Header />
             <div className='mt-8 border-2 mx-auto w-8/12'>
-                <ProfileHeader name={data.fullName} image={data.profilePic ? data.profilePic : placeHolderProfileImage} />
-                <ProfileBody/>
+                <ProfileHeader name={userData.fullName} image={userData.profilePic ? userData.profilePic : placeHolderProfileImage} />
+                <ProfileBody userData={userData} data={cakes}/>
             </div>
         </div>
     )

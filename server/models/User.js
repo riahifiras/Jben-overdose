@@ -16,9 +16,6 @@ const userSchema = new mongoose.Schema({
     wishList: [{
         id: { type: String, required: true }
     }],
-    previousTransactions: [String],
-    reviews: [Object],
-    accessToken: [String],
     refreshToken: [String]
 })
 

@@ -12,6 +12,7 @@ const refreshTokenController = require("./controllers/refreshTokenController");
 const authController = require("./controllers/authController");
 const cartController = require("./controllers/cartController");
 const wishListController = require("./controllers/wishListController")
+const transactionController = require("./controllers/transactionController");
 
 dotenv.config();
 
@@ -45,6 +46,10 @@ app.get('/getAccountInfo', verifyJWT, authController.getAccountInfo);
 app.put('/updatecart/:identifier', cartController.updateCart);
 
 app.put('/updatewishlist/:identifier', wishListController.updateWishList);
+
+app.post('/addtransaction', transactionController.addTransaction);
+
+app.get('/gettransactionbyid/:userID', transactionController.getTransactionsByID);
 
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port 3000....");
