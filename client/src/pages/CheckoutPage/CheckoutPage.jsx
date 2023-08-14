@@ -1,29 +1,29 @@
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxioxPrivate";
 import axios from '../../api/axios';
 import { FaPencilAlt } from "react-icons/fa";
-
 
 const CheckoutPage = () => {
   const location = useLocation();
   const data = location.state;
   const navigate = useNavigate();
 
-  const { auth } = useAuth();
   const [userData, setUserData] = useState({});
   const axiosPrivate = useAxiosPrivate();
 
-  const [name, setName] = useState("Elon Musk");
-  const [address, setAddress] = useState("26 Raoudha Mosque Road, Fouchena, Paris Saint Germain");
-  const [phone, setPhone] = useState("+216 42069666");
+  const [name, setName] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedPhone, setSelectedPhone] = useState("");
 
   const [editableField, setEditableField] = useState(null);
 
   const getUserData = async () => {
     try {
-      const result = await axiosPrivate.get("/getAccountInfo");
+      const result = await axiosPrivate.get("/getAccountInfo", {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
       setUserData(result.data.accountInfo);
     } catch (error) {
       console.log("Error: ", error);
@@ -33,6 +33,16 @@ const CheckoutPage = () => {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    if (userData.fullName) setName(userData.fullName);
+    if (userData.addresses && userData.addresses.length > 0) {
+      setSelectedAddress(userData.addresses[0]);
+    }
+    if (userData.phoneNumbers && userData.phoneNumbers.length > 0) {
+      setSelectedPhone(userData.phoneNumbers[0]);
+    }
+  }, [userData]);
 
   const handleEditField = (fieldName) => {
     setEditableField(fieldName);
@@ -60,8 +70,8 @@ const CheckoutPage = () => {
         cakes: userData.shoppingCart,
         userID: userData._id,
         name: name,
-        address: address,
-        phoneNumber: phone,
+        address: selectedAddress,
+        phoneNumber: selectedPhone,
         total: data
       }, {headers: {
         'Content-Type': 'application/json'
@@ -69,9 +79,7 @@ const CheckoutPage = () => {
     } catch (error) {
       console.log("Error: ", error);
     }
-
   }
-
 
   return (
     <div className='mx-auto flex justify-center items-start mt-16 gap-6'>
@@ -92,47 +100,49 @@ const CheckoutPage = () => {
             onBlur={handleFieldBlur}
             onKeyDown={(event) => event.key === "Enter" && handleFieldChange(event, setName)}
           />
-          <button className="text-gray-500" onClick={() => handleEditField("name")}>
-            <FaPencilAlt />
-          </button>
+          {!isFieldEditable("name") && (
+            <button className="text-gray-500" onClick={() => handleEditField("name")}>
+              <FaPencilAlt />
+            </button>
+          )}
         </div>
         <div className="flex flex-row text-xl items-center gap-2">
           <label className="w-40" htmlFor="address">
             Address:
           </label>
-          <input
-            className={`h-10 border-2 rounded-lg px-2 flex items-center ${isFieldEditable("address") ? "bg-transparent" : "bg-slate-100"}`}
+          <select
+            className="h-10 border-2 rounded-lg px-2"
             style={{ width: "520px" }}
-            type="text"
             name="address"
-            disabled={!isFieldEditable("address")}
-            value={address}
-            onChange={(event) => handleFieldChange(event, setAddress)}
-            onBlur={handleFieldBlur}
-            onKeyDown={(event) => event.key === "Enter" && handleFieldChange(event, setAddress)}
-          />
-          <button className="text-gray-500" onClick={() => handleEditField("address")}>
-            <FaPencilAlt />
-          </button>
+            value={selectedAddress}
+            onChange={(event) => setSelectedAddress(event.target.value)}
+          >
+            {userData.addresses &&
+              userData.addresses.map((address, index) => (
+                <option key={index} value={address}>
+                  {address}
+                </option>
+              ))}
+          </select>
         </div>
         <div className="flex flex-row text-xl items-center gap-2">
           <label className="w-40" htmlFor="phone">
             Phone number:
           </label>
-          <input
-            className={`h-10 border-2 rounded-lg px-2 flex items-center ${isFieldEditable("phone") ? "bg-transparent" : "bg-slate-100"}`}
+          <select
+            className="h-10 border-2 rounded-lg px-2"
             style={{ width: "520px" }}
-            type="text"
             name="phone"
-            disabled={!isFieldEditable("phone")}
-            value={phone}
-            onChange={(event) => handleFieldChange(event, setPhone)}
-            onBlur={handleFieldBlur}
-            onKeyDown={(event) => event.key === "Enter" && handleFieldChange(event, setPhone)}
-          />
-          <button className="text-gray-500" onClick={() => handleEditField("phone")}>
-            <FaPencilAlt />
-          </button>
+            value={selectedPhone}
+            onChange={(event) => setSelectedPhone(event.target.value)}
+          >
+            {userData.phoneNumbers &&
+              userData.phoneNumbers.map((phoneNumber, index) => (
+                <option key={index} value={phoneNumber}>
+                  {phoneNumber}
+                </option>
+              ))}
+          </select>
         </div>
       </div>
       <div className='flex flex-col p-6 rounded-sm justify-between border-2 w-80 h-80'>
@@ -146,4 +156,4 @@ const CheckoutPage = () => {
   )
 }
 
-export default CheckoutPage
+export default CheckoutPage;

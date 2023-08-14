@@ -12,7 +12,7 @@ const ProfileMenu = ({ setChoice }) => {
     }
 
     return (
-        <div className="flex flex-col justify-start items-center w-2/5 h-full border-r-2">
+        <div className="flex flex-col justify-start items-center w-2/5 h-full">
             <button onClick={() => setChoice("reviews")} className="text-lg w-full h-14 flex justify-center items-center hover:bg-slate-200">Recent reviews</button>
             <button onClick={() => setChoice("transactions")} className="text-lg w-full h-14 flex justify-center items-center hover:bg-slate-200">Previous transactions</button>
             <button onClick={() => setChoice("cart")} className="text-lg w-full h-14 flex justify-center items-center hover:bg-slate-200">Cart</button>

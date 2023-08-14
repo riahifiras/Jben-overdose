@@ -18,7 +18,7 @@ dotenv.config();
 
 app.use(credentials)
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Adjust the limit to your needs
 app.use(cookieParser());
 
 connectToDB();
@@ -35,6 +35,8 @@ app.post('/signup', authController.signup);
 
 app.post('/login', authController.login);
 
+app.post('/checkpassword', authController.checkPassword);
+
 app.get('/refresh', refreshTokenController.refreshAccessToken);
 
 app.put('/updateRefreshToken/:userId', refreshTokenController.updateRefreshToken);
@@ -42,6 +44,8 @@ app.put('/updateRefreshToken/:userId', refreshTokenController.updateRefreshToken
 app.get('/logout', authController.logout)
 
 app.get('/getAccountInfo', verifyJWT, authController.getAccountInfo);
+
+app.put('/setAccountInfo/:identifier', authController.setAccountInfo);
 
 app.put('/updatecart/:identifier', cartController.updateCart);
 

@@ -31,7 +31,7 @@ const addTransaction = async (req, res) => {
 const getTransactionsByID = async (req, res) => {
     const userID = req.params.userID;
     const transactions = await findTransactionsWithUserID(userID);
-    console.log(userID);
+    //console.log(userID);
     res.json({ transactions })
 }
 

@@ -46,8 +46,8 @@ const Profile = () => {
     return (
         <div>
             <Header />
-            <div className='mt-8 border-2 mx-auto w-8/12'>
-                <ProfileHeader name={userData.fullName} image={userData.profilePic ? userData.profilePic : placeHolderProfileImage} />
+            <div className='mt-8 border-2 mx-auto w-8/12 mb-8'>
+                <ProfileHeader name={userData.fullName} id={userData._id} image={userData.profilePic ? userData.profilePic : placeHolderProfileImage} />
                 <ProfileBody userData={userData} data={cakes}/>
             </div>
         </div>

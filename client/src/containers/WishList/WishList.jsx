@@ -23,23 +23,28 @@ const WishList = () => {
     }
 
 
-    const whishListData = JSON.parse(localStorage.getItem("wishList") || "[]");
-    const ids = whishListData?.map(item => item.id) || [];
-    const tempArr = data.filter(item => ids.includes(item._id));
+    // const wishListData = JSON.parse(localStorage.getItem("wishList") || "[]");
+    // const ids = wishListData?.map(item => item.id) || [];
+    // const tempArr = data.filter(item => ids.includes(item._id));
 
     const [displayOn, setDisplayOn] = useState(false);
-    const [wishListItems, setWishListItems] = useState(tempArr);
+    const [wishListItems, setWishListItems] = useState([]);
 
     const find = () => {
         fetchData();
-        const whishListData = JSON.parse(localStorage.getItem("wishList") || "[]");
-        const ids = whishListData?.map(item => item.id) || [];
-        const tempArr = data.filter(item => ids.includes(item._id));
-        const updatedWishListItems = tempArr.map(item => {
-            const matchingWishList = whishListData.find(wishList => wishList.id === item._id);
-            return matchingWishList ? { ...item, quantity: matchingWishList.quantity } : item;
-        });
-        setWishListItems(updatedWishListItems);
+        try {
+            const wishListData = JSON.parse(localStorage.getItem("wishList") || "[]");
+            const ids = wishListData?.map(item => item.id) || [];
+            const tempArr = data.filter(item => ids.includes(item._id));
+            const updatedWishListItems = tempArr.map(item => {
+                const matchingWishList = wishListData.find(wishList => wishList.id === item._id);
+                return matchingWishList ? { ...item, quantity: matchingWishList.quantity } : item;
+            });
+            setWishListItems(updatedWishListItems);
+        } catch (error) {
+            setWishListItems([]);
+        }
+
 
     };
 

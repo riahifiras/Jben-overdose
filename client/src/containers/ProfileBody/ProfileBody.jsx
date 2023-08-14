@@ -11,14 +11,14 @@ const ProfileBody = ({ userData, data }) => {
     const [choice, setChoice] = useState("reviews");
 
     return (
-        <div className="flex flex-row h-96">
+        <div className="flex flex-row">
             <ProfileMenu setChoice={setChoice} />
-            <div className="w-full text-lg p-6">
+            <div className="w-full text-lg p-6 border-l-2">
                 {choice === "reviews" && <ProfileReviews />}
                 {choice === "transactions" && <ProfileTransactions userID={userData._id} />}
                 {choice === "cart" && <ProfileCart data={data} cart={userData.shoppingCart} />}
                 {choice === "wishlist" && <ProfileWishList data={data} wishList={userData.wishList}/>}
-                {choice === "settings" && <ProfileSettings />}
+                {choice === "settings" && <ProfileSettings userID={userData._id} phoneNumbers={userData.phoneNumbers} addresses={userData.addresses} userName={userData.username}/>}
             </div>
         </div>
     )

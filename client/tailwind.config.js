@@ -17,6 +17,9 @@ export default {
         color5: '#7F5539',
         color6: '#9C6644',
       },
+      backgroundColor: {
+        'black-50': 'rgba(0, 0, 0, 0.6)',
+      },
     },
   },
   plugins: [],

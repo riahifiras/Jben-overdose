@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     registrationDate: { type: Date },
-    phoneNumber: Number,
-    address: String,
+    phoneNumbers: [Number],
+    addresses: [String],
     profilePic: String,
     shoppingCart: [{
         id: { type: String, required: true },
